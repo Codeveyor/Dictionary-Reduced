@@ -18,7 +18,7 @@ final class DictionaryViewController: UIViewController {
         static let animationDuration = TimeInterval(0.3)
     }
 
-    var dictionaryName: String!
+    private let dictionaryName = "russian-explanatory"
 
     private var sourceArray = [String]()
     private var displayArray = [String]()
@@ -31,20 +31,9 @@ final class DictionaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if let dictionaryName = dictionaryName {
-            setupData(plistName: dictionaryName)
-        }
+        setupData(plistName: dictionaryName)
         setupTableView()
-
-        let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self,
-                                       selector: #selector(keyboardWillHide(notification:)),
-                                       name: .UIKeyboardWillHide,
-                                       object: nil)
-        notificationCenter.addObserver(self,
-                                       selector: #selector(keyboardWillShow(notification:)),
-                                       name: .UIKeyboardWillShow,
-                                       object: nil)
+        setupKeyboardNotifications()
     }
 
     // MARK: - Utils
@@ -63,6 +52,18 @@ final class DictionaryViewController: UIViewController {
         displayDictionary = data.displayDictionary
         displayArray.append(contentsOf: sourceArray)
         dictionaryTableView.reloadData()
+    }
+
+    private func setupKeyboardNotifications() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self,
+                                       selector: #selector(keyboardWillHide(notification:)),
+                                       name: .UIKeyboardWillHide,
+                                       object: nil)
+        notificationCenter.addObserver(self,
+                                       selector: #selector(keyboardWillShow(notification:)),
+                                       name: .UIKeyboardWillShow,
+                                       object: nil)
     }
 
     private func setupAttributedString(cell: DictionaryCell, fullString: String) {
@@ -113,8 +114,11 @@ extension DictionaryViewController: UITableViewDataSource {
         }
 
         let word = displayArray[indexPath.row]
-        cell.wordLabel?.text = word
-        cell.translationLabel?.text = displayDictionary[word]
+        let translation = displayDictionary[word]!
+
+        cell.updateCellWith(letter: word,
+                            translation: translation,
+                            indexPathRow: indexPath.row)
         setupAttributedString(cell: cell, fullString: word)
         cell.colorView.backgroundColor = setupColorView(indexPathRow: indexPath.row)
 

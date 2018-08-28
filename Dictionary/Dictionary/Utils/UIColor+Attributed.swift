@@ -31,11 +31,4 @@ extension UIColor {
 
         return color
     }()
-    static let blackCustom: UIColor = {
-        guard let color = UIColor(named: "blackCustom") else {
-            fatalError("ERROR! Unable to get blackCustom color")
-        }
-
-        return color
-    }()
 }

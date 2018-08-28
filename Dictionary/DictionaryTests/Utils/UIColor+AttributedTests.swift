@@ -43,15 +43,4 @@ class ColorUtilsTests: XCTestCase {
 
         XCTAssertEqual(testColor, baseCellColor, "colors should be equal")
     }
-
-    func testBlackCustomColor() {
-        guard let testColor = UIColor(named: "blackCustom") else {
-            XCTAssert(true, "unable to obtain blackCustom color")
-            return
-        }
-
-        let blackCustomColor = UIColor.blackCustom
-
-        XCTAssertEqual(testColor, blackCustomColor, "colors should be equal")
-    }
 }

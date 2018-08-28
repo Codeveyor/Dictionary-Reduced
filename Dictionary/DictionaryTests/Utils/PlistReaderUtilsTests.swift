@@ -24,7 +24,7 @@ class PlistReaderUtilsTests: XCTestCase {
     }
 
     func testReadingPlist() {
-        let result = sut.read("DICT_R-S")
+        let result = sut.read("russian-explanatory")
         let sourceArrayCount = result?.sourceArray.count
         let displayDictionaryCount = result?.displayDictionary.count
 
